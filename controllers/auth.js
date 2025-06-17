@@ -64,3 +64,23 @@ exports.login = async (req, res) => {
     console.error(error);
   }
 };
+
+exports.getCurrentUser = async (req, res) => {
+  try {
+    const user = await prisma.user.findFirst({
+      //   where: { email: req.user.email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+      },
+    });
+
+    res.json({ user });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, Please try again!!!" });
+    console.error(error);
+  }
+};
