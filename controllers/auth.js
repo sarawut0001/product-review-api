@@ -46,6 +46,7 @@ exports.login = async (req, res) => {
     const payload = {
       id: user.id,
       email: user.email,
+      role: user.role,
     };
 
     jwt.sign(
@@ -68,11 +69,12 @@ exports.login = async (req, res) => {
 exports.getCurrentUser = async (req, res) => {
   try {
     const user = await prisma.user.findFirst({
-      //   where: { email: req.user.email },
+      where: { email: req.user.email },
       select: {
         id: true,
         email: true,
         name: true,
+        role: true,
       },
     });
 
