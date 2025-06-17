@@ -19,7 +19,7 @@ exports.createProduct = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({});
 
     res.json(products);
   } catch (error) {
@@ -38,9 +38,15 @@ exports.getProductWithReview = async (req, res) => {
       where: { id },
       include: {
         review: {
-          include: {
+          select: {
+            id: true,
+            rating: true,
+            comment: true,
             user: {
-              select: { id: true, name: true },
+              select: {
+                id: true,
+                name: true,
+              },
             },
           },
         },
