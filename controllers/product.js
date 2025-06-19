@@ -61,3 +61,44 @@ exports.getProductWithReview = async (req, res) => {
     console.error(error);
   }
 };
+
+exports.update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, price, imageUrl } = req.body;
+
+    await prisma.product.update({
+      where: { id },
+      data: {
+        name,
+        description,
+        price,
+        imageUrl,
+      },
+    });
+
+    res.json({ message: "Update successfully!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, Please try again!!!" });
+    console.error(error);
+  }
+};
+
+exports.remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.product.delete({
+      where: { id },
+    });
+
+    res.json({ message: "Delete successfully!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, Please try again!!!" });
+    console.error(error);
+  }
+};
