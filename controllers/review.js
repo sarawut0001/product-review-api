@@ -53,3 +53,39 @@ exports.getUserReviews = async (req, res) => {
     console.error(error);
   }
 };
+
+exports.updateReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+
+    await prisma.review.update({
+      where: { id },
+      data: { rating, comment },
+    });
+
+    res.json({ message: "Update successfully!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, Please try again!!!" });
+    console.error(error);
+  }
+};
+
+exports.removeReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await prisma.review.delete({
+      where: { id },
+    });
+
+    res.json({ message: "Delete successfully!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong, Please try again!!!" });
+    console.error(error);
+  }
+};
